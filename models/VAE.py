@@ -84,7 +84,7 @@ class VAE(nn.Module):
             rec_loss+=F.binary_cross_entropy(x_rec,x,reduce=False)
         rec_loss/=L
 
-        return torch.mean(torch.sum(KL_div+rec_loss,1))
+        return torch.sum(KL_div+rec_loss)
 
     def reconstruct_x(self,x):
         z_mu, z_sigma = self.encoder(x)

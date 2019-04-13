@@ -4,8 +4,9 @@ from torchvision import transforms
 
 
 def get_data(args):
-    train_dataset=MNIST(root=args.file_path,train=True,transform=transforms.ToTensor())
-    test_dataset=MNIST(root=args.file_path,train=False,transform=transforms.ToTensor())
+    file_path='./data/'+args.dataset
+    train_dataset=MNIST(root=file_path,train=True,transform=transforms.ToTensor(),download=True)
+    test_dataset=MNIST(root=file_path,train=False,transform=transforms.ToTensor(),download=True)
 
     train_dataset=TensorDataset(train_dataset.train_data.view(-1,784)/255.,train_dataset.train_labels)
     test_dataset=TensorDataset(test_dataset.test_data.view(-1,784)/255.,test_dataset.test_labels)

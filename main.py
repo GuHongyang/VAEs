@@ -3,15 +3,23 @@ from utils.mnist import *
 from tqdm import tqdm
 from visdom import Visdom
 from importlib import import_module
+from torch.optim import Adam
 
 parse=argparse.ArgumentParser(description='VAEs')
 
-parse.add_argument('--batch_size',type=int,default=256)
+parse.add_argument('--cuda',type=bool,default=True)
+
 parse.add_argument('--dataset',type=str,default='mnist')
+parse.add_argument('--batch_size',type=int,default=256)
+
+parse.add_argument('--learning_rate',type=float,default=1e-3)
 parse.add_argument('--epochs',type=int,default=200)
 parse.add_argument('--vis',type=bool,default=False)
-parse.add_argument('--cuda',type=bool,default=True)
+
 parse.add_argument('--model',type=str,default='VAE')
+parse.add_argument('--input_dim',type=int,default=784)
+parse.add_argument('--latent_dim',type=int,default=50)
+parse.add_argument('--hid_dims',type=list,default=[400,])
 
 args=parse.parse_args()
 
@@ -21,9 +29,29 @@ train_data,test_data=data_module.get_data(args)
 model_module=import_module('models.'+args.model)
 model=model_module.make_model(args)
 
+opti=Adam(model.parameters(),lr=args.learning_rate)
 
-
-
+vis=None
+if args.vis:
+    vis=Visdom()
 
 epoch_bar=tqdm(range(args.epochs))
+
+for epoch in epoch_bar:
+    epoch_loss=0
+
+    batch_bar=tqdm(train_data[1])
+    for train_x,_ in batch_bar:
+        if args.cuda:
+            train_x=train_x.cuda()
+
+        batch_loss=model(train_x)
+        batch_bar.set_description('ELBO=-%.4f'.format(batch_loss))
+        epoch_loss+=batch_loss
+
+    epoch_bar.set_description('ELBO=-%.4f'.format(epoch_loss))
+
+
+
+
 
