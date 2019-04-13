@@ -1,4 +1,5 @@
-#Variant models of VAE based on Pytorch
+Variant models of VAE based on Pytorch
+=======
 
 
 1.VAE
