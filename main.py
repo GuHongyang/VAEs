@@ -1,5 +1,6 @@
 import argparse
-from utils.mnist import *
+from utils.datasets import get_data
+from utils.visual import *
 from tqdm import tqdm
 from visdom import Visdom
 from importlib import import_module
@@ -23,17 +24,17 @@ parse.add_argument('--hid_dims',type=list,default=[400,])
 
 args=parse.parse_args()
 
-data_module=import_module('utils.'+args.dataset)
-train_data,test_data=data_module.get_data(args)
+train_data,test_data=get_data(args)
 
 model_module=import_module('models.'+args.model)
 model=model_module.make_model(args)
 
 opti=Adam(model.parameters(),lr=args.learning_rate)
 
-vis=None
 if args.vis:
     vis=Visdom()
+    elbo_lines=Line(opts={'xlabel':'Epoch','ylabel':'ELBO'})
+
 
 epoch_bar=tqdm(range(args.epochs))
 
@@ -46,10 +47,16 @@ for epoch in epoch_bar:
             train_x=train_x.cuda()
 
         batch_loss=model(train_x)
-        batch_bar.set_description('ELBO=-%.4f'.format(batch_loss))
-        epoch_loss+=batch_loss
 
-    epoch_bar.set_description('ELBO=-%.4f'.format(epoch_loss))
+        opti.zero_grad()
+        batch_loss.backward()
+        opti.step()
+
+        batch_bar.set_description('loss=-{:.4f}'.format(batch_loss))
+        epoch_loss+=batch_loss*train_x.size(0)
+
+    epoch_loss/=train_data[0].__len__()
+    epoch_bar.set_description('Loss=-{:.4f}'.format(epoch_loss))
 
 
 

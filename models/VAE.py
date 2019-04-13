@@ -56,7 +56,7 @@ class Decoder(nn.Module):
         pre_hid=z
         hid = []
         for i in range(len(self.hid_layers)):
-            hid=self.hid_layers(pre_hid)
+            hid=self.hid_layers[i](pre_hid)
             pre_hid=hid
 
         x_pro=F.sigmoid(self.x_layer(hid))
@@ -84,7 +84,7 @@ class VAE(nn.Module):
             rec_loss+=F.binary_cross_entropy(x_rec,x,reduce=False)
         rec_loss/=L
 
-        return torch.sum(KL_div+rec_loss)
+        return torch.mean(torch.sum(KL_div,1)+torch.sum(rec_loss,1))
 
     def reconstruct_x(self,x):
         z_mu, z_sigma = self.encoder(x)
