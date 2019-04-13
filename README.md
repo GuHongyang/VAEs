@@ -4,4 +4,4 @@
 1.VAE
 
 https://arxiv.org/pdf/1312.6114.pdf
-![Image text](./figures/vae.png)
+<img src="figures/vae.png" width="350">
