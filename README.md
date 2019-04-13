@@ -7,7 +7,7 @@ _______
 
 https://arxiv.org/pdf/1312.6114.pdf
 
-<div style="align: center">
+<div align=center>
 <img src="figures/vae.png" width=250/>
 </div>
 
