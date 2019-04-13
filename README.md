@@ -2,8 +2,8 @@
 Variant models of VAE based on Pytorch
 =======
 
-# Variational Auto-Encoder
--------
+### Variational Auto-Encoder(VAE)
+
 
 https://arxiv.org/pdf/1312.6114.pdf
 
