@@ -4,6 +4,10 @@ import torch.nn.functional as F
 import numpy as np
 from torch.optim import Adam
 
+def make_model(args):
+    return VAE(args)
+
+
 class Encoder(nn.Module):
     def __init__(self, hid_dims=[400, ], input_dim=784, latent_dim=50):
         super(Encoder,self).__init__()
@@ -61,14 +65,12 @@ class Decoder(nn.Module):
 
 
 class VAE(nn.Module):
-    def __init__(self,input_dim,latent_dim,hid_dims,cuda):
+    def __init__(self,args):
         super(VAE,self).__init__()
-        self.encoder=Encoder(hid_dims,input_dim,latent_dim)
-        self.decoder=Decoder(hid_dims,input_dim,latent_dim)
-        if cuda:
+        self.encoder=Encoder(args.hid_dims,args.input_dim,args.latent_dim)
+        self.decoder=Decoder(args.hid_dims,args.input_dim,args.latent_dim)
+        if args.cuda:
             self.cuda()
-
-        self.opti=Adam(self.parameters(),lr=1e-3)
 
     def forward(self,x,L=1):
         z_mu,z_sigma=self.encoder(x)
