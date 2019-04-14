@@ -78,7 +78,9 @@ for epoch in epoch_bar:
         #reconstruct images
         writer.add_image('reconstruct_images',get_reconstruct_images(model,test_data[0]),epoch)
 
-
+        #inter images 2D
+        if args.latent_dim==2:
+            writer.add_image('interpolation_images',interpolation_images(model),epoch)
 
 
 

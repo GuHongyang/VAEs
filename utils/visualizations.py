@@ -1,5 +1,6 @@
 import torch
 from torchvision.utils import make_grid
+import numpy as np
 
 
 def get_reconstruct_images(model,dataset):
@@ -13,5 +14,15 @@ def get_reconstruct_images(model,dataset):
         rec_images[20*i+10:20*(i+1),:]=rec_.cpu().detach().view(-1,1,28,28)
 
     return make_grid(rec_images,nrow=10)
+
+
+def interpolation_images(model):
+
+    x,y=np.meshgrid(np.linspace(-3,3,10),np.linspace(-3,3,10))
+    z_inter=torch.from_numpy(np.concatenate([np.reshape(x,[-1,1]),np.reshape(y,[-1,1])],1)).cuda()
+    rec_x=model(z_inter).cpu().detach()
+
+    return make_grid(rec_x.view(-1,1,28,28),nrow=10)
+
 
 
