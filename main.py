@@ -58,6 +58,9 @@ for epoch in epoch_bar:
     epoch_loss/=train_data[0].__len__()
     epoch_bar.set_description('Loss=-{:.4f}'.format(epoch_loss))
 
+    if args.vis:
+        elbo_lines(epoch_loss)
+
 
 
 

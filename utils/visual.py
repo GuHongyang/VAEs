@@ -6,8 +6,10 @@ class Line():
     def __init__(self,opts,vis):
         self.vis=vis
         self.win=vis.line([0],[0],opts=opts)
+        self.y=[]
 
     def __call__(self,ys):
+        self.y.append(ys)
         self.win=self.vis.line(ys,X=np.arange(len(ys)),win=self.win,update='replace')
 
 
