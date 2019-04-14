@@ -4,7 +4,6 @@ Variant models of VAE based on Pytorch
 
 ### 1.Variational Auto-Encoder(VAE)
 
-
 https://arxiv.org/pdf/1312.6114.pdf
 
 <div align=center>
@@ -25,3 +24,10 @@ $$
 \mathcal { L } ( \boldsymbol { \theta } , \boldsymbol { \phi } ; \mathbf { X } ) \simeq \widetilde { \mathcal { L } }  \left( \boldsymbol { \theta } , \boldsymbol { \phi } ; \mathbf { X } ^ { M } \right) = \frac { N } { M } \sum _ { i = 1 } ^ { M } \widetilde { \mathcal { L } } \left( \boldsymbol { \theta } , \boldsymbol { \phi } ; \mathbf { x } ^ { ( i ) } \right)
 $$
 
+### 2.$\beta$-VAE
+
+https://pdfs.semanticscholar.org/a902/26c41b79f8b06007609f39f82757073641e2.pdf
+
+$$
+\mathcal { L } ( \theta , \phi ; \mathbf { x } , \mathbf { z } , \beta ) = \mathbb { E } _ { q _ { \phi } ( \mathbf { z } | \mathbf { x } ) } \left[ \log p _ { \theta } ( \mathbf { x } | \mathbf { z } ) \right] - \beta D _ { K L } \left( q _ { \phi } ( \mathbf { z } | \mathbf { x } ) \| p ( \mathbf { z } ) \right)
+$$
