@@ -18,11 +18,11 @@ def get_reconstruct_images(model,dataset):
 
 def interpolation_images(model):
 
-    x,y=np.meshgrid(np.linspace(-3,3,10),np.linspace(-3,3,10))
-    z_inter=torch.from_numpy(np.concatenate([np.reshape(x,[-1,1]),np.reshape(y,[-1,1])],1)).cuda()
-    rec_x=model(z_inter).cpu().detach()
+    x,y=np.meshgrid(np.linspace(-3,3,20),np.linspace(-3,3,20))
+    z_inter=torch.from_numpy(np.concatenate([np.reshape(x,[-1,1]),np.reshape(y,[-1,1])],1)).cuda().float()
+    rec_x=model.decoder(z_inter).cpu().detach()
 
-    return make_grid(rec_x.view(-1,1,28,28),nrow=10)
+    return make_grid(rec_x.view(-1,1,28,28),nrow=20)
 
 
 

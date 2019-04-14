@@ -19,10 +19,10 @@ parse.add_argument('--learning_rate',type=float,default=1e-3)
 parse.add_argument('--epochs',type=int,default=200)
 parse.add_argument('--vis',type=bool,default=True)
 
-parse.add_argument('--model',type=str,default='beta_VAE')
+parse.add_argument('--model',type=str,default='VAE')
 parse.add_argument('--input_dim',type=int,default=784)
-parse.add_argument('--latent_dim',type=int,default=50)
-parse.add_argument('--hid_dims',type=list,default=[400,])
+parse.add_argument('--latent_dim',type=int,default=2)
+parse.add_argument('--hid_dims',type=list,default=[200,])
 parse.add_argument('--beta',type=float,default=10)
 
 args=parse.parse_args()
@@ -73,7 +73,7 @@ for epoch in epoch_bar:
 
 
     if args.vis:
-        writer.add_scalars('ELBO_Loss',{'Train':epoch_loss,'Test':test_epoch_loss},epoch)
+        writer.add_scalars('ELBO_Loss',{'Train':-epoch_loss,'Test':-test_epoch_loss},epoch)
 
         #reconstruct images
         writer.add_image('reconstruct_images',get_reconstruct_images(model,test_data[0]),epoch)

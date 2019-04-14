@@ -92,6 +92,7 @@ class beta_VAE(nn.Module):
         z = reparameterize(z_mu, z_sigma)
         return self.decoder(z)
 
+
 def reparameterize(mu,sigma):
     return torch.randn_like(mu)*sigma+mu
 
