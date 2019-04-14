@@ -2,11 +2,6 @@ import torch
 import numpy as np
 
 
-
-class M_Line():
-    def __init__(self,opts,vis):
-
-
 class Line():
     def __init__(self,opts,vis):
         self.vis=vis
